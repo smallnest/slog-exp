@@ -15,6 +15,7 @@ require (
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/lestrrat/go-envload v0.0.0-20180220120943-6ed08b54a570 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/smallnest/goroutine v1.1.1 // indirect
 	github.com/tebeka/strftime v0.1.5 // indirect
 	golang.org/x/net v0.22.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect

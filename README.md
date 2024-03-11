@@ -101,3 +101,15 @@ use `ReplaceTimeAttr` and `ReplaceSourceAttr`.
 	logger.Warn("warn text")
 	logger.Error("error text")
 ```
+
+### goutine id
+
+```go
+handler := NewLevelHandler(map[slog.Level]slog.Handler{
+		slog.LevelInfo:  infoHandler,
+		slog.LevelWarn:  warnHandler,
+		slog.LevelError: errorHandler,
+	}).WithAttrs([]slog.Attr{
+		slog.Int64("gid", goroutine.ID()),
+	})
+```
