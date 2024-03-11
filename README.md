@@ -33,6 +33,7 @@ slog experimental features such individual log files for different levels, and o
 - [slog-zerolog](https://github.com/samber/slog-zerolog): A `slog` handler for `Zerolog`
 - [slog-logrus](https://github.com/samber/slog-logrus): A `slog` handler for `Logrus`
 - [slog-channel](https://github.com/samber/slog-channel): A `slog` handler for Go channels
+- [slog-clickhouse](https://github.com/smallnest/slog-clickhouse): A `slog` handler for ClickHouse
 
 ## Installation
 
@@ -43,6 +44,8 @@ go get github.com/smllnest/slog-clickhouse
 **Compatibility**: `go >= 1.21`
 
 ## Usage
+
+### LevelHandler
 
 Set different handlers for different log levels.
 For example, you can set different handlers to save files for different log levels, such as `info`, `warn`, and `error`.
@@ -81,36 +84,17 @@ For example, you can set different handlers to save files for different log leve
     logger.Info("info text")
     logger.Warn("warn text")
     logger.Error("error text")
+```
+
+### customized datetime and source
+
+use `ReplaceTimeAttr` and `ReplaceSourceAttr`.
 
 ```go
-	infoFile, err := os.OpenFile("testdata/info.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
-	if err != nil {
-		panic(err)
-	}
-	defer infoFile.Close()
-
-	warnFile, err := os.OpenFile("testdata/warn.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
-	if err != nil {
-		panic(err)
-	}
-	defer warnFile.Close()
-
-	errorFile, err := os.OpenFile("testdata/error.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
-	if err != nil {
-		panic(err)
-	}
-	defer errorFile.Close()
-
-	infoHandler := slog.NewTextHandler(infoFile, &slog.HandlerOptions{Level: slog.LevelInfo})
-	warnHandler := slog.NewTextHandler(warnFile, &slog.HandlerOptions{Level: slog.LevelWarn})
-	errorHandler := slog.NewTextHandler(errorFile, &slog.HandlerOptions{Level: slog.LevelError})
-
-	handler := NewLevelHandler(map[slog.Level]slog.Handler{
-		slog.LevelInfo:  infoHandler,
-		slog.LevelWarn:  warnHandler,
-		slog.LevelError: errorHandler,
+	handler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		ReplaceAttr: WrapReplaceAttrFunc(ReplaceTimeAttr(time.TimeOnly), ReplaceSourceAttr()),
+		AddSource:   true,
 	})
-
 	logger := slog.New(handler)
 
 	logger.Info("info text")
