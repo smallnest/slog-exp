@@ -110,6 +110,6 @@ handler := NewLevelHandler(map[slog.Level]slog.Handler{
 		slog.LevelWarn:  warnHandler,
 		slog.LevelError: errorHandler,
 	}).WithAttrs([]slog.Attr{
-		slog.Int64("gid", goroutine.ID()),
+		slog.Int64("gid", gid.ID()),
 	})
 ```

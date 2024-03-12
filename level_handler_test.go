@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/smallnest/goroutine"
+	"github.com/smallnest/gid"
 )
 
 func ExampleLevelHandler() {
@@ -153,7 +153,7 @@ func TestLevelHandler_WithAttr(t *testing.T) {
 		slog.LevelWarn:  warnHandler,
 		slog.LevelError: errorHandler,
 	}).WithAttrs([]slog.Attr{
-		slog.Int64("gid", goroutine.ID()),
+		slog.Int64("gid", gid.ID()),
 	})
 
 	logger := slog.New(handler).WithGroup("program_info")
